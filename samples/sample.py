@@ -52,7 +52,7 @@ class Circle(Shape):
         super().__init__(name)
         # Instance attributes with type annotations
         self.radius: float = radius
-        self.diameter: float = radius * 2.0
+        self.diameter = radius * 2.0
     
     def area(self) -> float:
         """Calculate circle area."""
@@ -78,7 +78,7 @@ class Rectangle(Shape):
     
     def __init__(self, width: float, height: float, name: str = "Rectangle") -> None:
         super().__init__(name)
-        self.width: float = width
+        self.width = width
         self.height: float = height
     
     def area(self) -> float:
