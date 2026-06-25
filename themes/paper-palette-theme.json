@@ -411,7 +411,8 @@
           },
           "punctuation": {
             "color": "#000000",
-            "background_color": null,
+            // "background_color": null,
+            "background_color": "#f3f3f3",
             "font_style": null,
             "font_weight": null
           },
@@ -433,10 +434,10 @@
             "font_style": null,
             "font_weight": 700
           },
-          "punctuation.special": {
+          "punctuation.special": { // `:` in typescript
             "color": "#000000",
-            // "background_color": null,
-            "background_color": "#f3f3f3",
+            "background_color": null,
+            // "background_color": "#f3f3f3",
             "font_style": null,
             "font_weight": null
           },
@@ -458,20 +459,19 @@
             "font_style": null,
             "font_weight": "bold"
           },
-          "enum": {
+          "enum": { // TODO
             "color": "#7a3e9d",
-            // "background_color": "#fffabc",
+            "background_color": null,
             "font_style": null,
             "font_weight": null
           },
           "variant": {
             "color": "#7a3e9d",
-            // "background_color": "#fffabc",
+            "background_color": "#f3f3f3",
             "font_style": null,
             "font_weight": null
           },
           "hint": {
-            // "color": "#007acc",
             "color": "#aaaaaa",
             "background_color": null,
             "font_style": null,
