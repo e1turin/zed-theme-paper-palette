@@ -264,7 +264,8 @@
           },
           "constant": {
             "color": "#000000",
-            "background_color": "#ffdec4",
+            // "background_color": "#ffdec4",
+            "background_color": "#fae5fe",
             "font_style": null,
             "font_weight": null
           },
@@ -288,8 +289,8 @@
             // "color": "#000000",
             "background_color": null,
             "font_style": null,
-            "font_weight": 300
-            // "font_weight": null
+            // "font_weight": 300
+            "font_weight": null
             // "font_weight": 500
           },
           "type.builtin": {
@@ -297,8 +298,8 @@
             "color": "#2e1aa0",
             "background_color": null,
             "font_style": null,
-            "font_weight": 300
-            // "font_weight": null
+            // "font_weight": 300
+            "font_weight": null
           },
           // "type.unit": { // what is it?
           //   "color": "#7a3e9d",
@@ -312,16 +313,16 @@
             "background_color": "#ffdec4",
             // "background_color": "#fae5fe",
             "font_style": null,
-            // "font_weight": 700 //null
+            // "font_weight": 700
             "font_weight": null
           },
           "constructor": {
             "color": "#000000",
             // "color": "#2e1aa0",
             // "color": "#7a3e9d",
-            // "background_color": "#dbf1ff",
+            "background_color": "#dbf1ff",
             // "background_color": "#ffdec4",
-            "background_color": "#fae5fe",
+            // "background_color": "#fae5fe",
             "font_style": null,
             "font_weight": null
             // "font_weight": 300
