@@ -1,5 +1,5 @@
 # This is a comment that explains the purpose of this module
-# According to Alabaster, comments should be highlighted
+# According to theme
 
 from typing import Optional, List, Dict, Union, Tuple, Any, Protocol
 from abc import ABC, abstractmethod
@@ -11,17 +11,16 @@ DEBUG: bool = True
 NONE_VALUE: None = None
 DEFAULT_NAME: str = "Unnamed"
 
-# Protocol definition (structural subtyping)
 class Drawable(Protocol):
     """Protocol for drawable objects."""
     def draw(self) -> str: ...
 
-# Abstract base class
+
 class Shape(ABC):
     """Abstract base class for all shapes."""
     
     def __init__(self, name: str) -> None:
-        self.name: str = name
+        self.name: str = name # comment on the same line
     
     @abstractmethod
     def area(self) -> float:
@@ -29,11 +28,15 @@ class Shape(ABC):
         pass
     
     @abstractmethod
-    def perimeter(self) -> float:
+    def perimeter(self) -> float | None:
         """Calculate the perimeter of the shape."""
         pass
 
-# Global function definition with type annotations
+    @property
+    def kek(self) -> int:
+        return int(self.area())
+
+
 def calculate_area(radius: float) -> float:
     """Calculate the area of a circle."""
     # Comments inside functions should also be highlighted
@@ -58,13 +61,13 @@ class Circle(Shape):
         """Calculate circle area."""
         return PI * self.radius ** 2
     
-    def perimeter(self) -> float:
+    def perimeter(self) -> float | None:
         """Calculate circle perimeter (circumference)."""
         return 2 * PI * self.radius
     
     def get_info(self) -> Dict[str, Union[str, float]]:
         # String literals should be highlighted
-        print("Getting circle information...")
+        print("Getting circle information...\n")
         return {
             "name": self.name,
             "radius": self.radius,
@@ -96,7 +99,7 @@ def get_shapes_info(shapes: List[Shape]) -> List[Dict[str, Any]]:
     for shape in shapes:
         info: Dict[str, Any] = {
             "type": type(shape).__name__,
-            "name": shape.name,
+            "name": f"Name of {shape.name} some",
             "area": shape.area(),
             "perimeter": shape.perimeter()
         }
@@ -139,7 +142,7 @@ if __name__ == "__main__":
     # Creating objects with type annotations
     shapes: List[Shape] = [
         Circle(5.0, "Small Circle"),
-        Rectangle(10.0, 20.0, "Large Rectangle"),
+        Rectangle(10.0, 20.0, "Large Rectangle\nso large\t that name\n \rnot fits in\nline"),
         Circle(15.0, "Big Circle")
     ]
     

@@ -1,5 +1,4 @@
-// JavaScript sample for Alabaster theme
-// Comments should be highlighted according to the theme
+// JavaScript sample theme demonstrates common Typst syntax features
 
 // Global constants
 const MAX_SIZE = 1000;
@@ -14,7 +13,7 @@ function calculateArea(radius) {
   if (radius <= 0) {
     return 0;
   }
-  
+
   const area = PI * Math.pow(radius, 2);
   return area;
 }
@@ -32,7 +31,7 @@ class Circle {
     this.radius = radius;
     this.diameter = radius * 2;
   }
-  
+
   // Method definition
   getCircumference() {
     // Regular string

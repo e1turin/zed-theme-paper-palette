@@ -1,4 +1,4 @@
-/* CSS sample for Alabaster theme */
+/* CSS sample for theme */
 /* Comments should be highlighted */
 
 /* Global custom properties (CSS variables) */
@@ -16,7 +16,7 @@ body {
   /* String values */
   font-family: "Helvetica Neue", Arial, sans-serif;
   content: 'Single quoted string';
-  
+
   /* Numeric values */
   font-size: 16px;
   line-height: 1.5;
@@ -34,7 +34,7 @@ body {
   border-color: rgba(0, 0, 0, 0.1);
   outline-color: hsl(210, 50%, 50%);
   box-shadow: 0 2px 4px hsla(0, 0%, 0%, 0.1);
-  
+
   /* Numeric values with units */
   width: 100%;
   max-width: 1200px;
@@ -50,7 +50,7 @@ body {
   overflow: hidden;
   text-align: center;
   cursor: pointer;
-  
+
   /* Multiple values */
   margin: 10px 20px 30px 40px;
   padding: 1rem 2rem;
@@ -115,11 +115,11 @@ input[type="text"] {
     opacity: 0;
     transform: translateY(-10px);
   }
-  
+
   50% {
     opacity: 0.5;
   }
-  
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -176,13 +176,13 @@ nav ul li a:not(.active):hover {
   /* Logical properties */
   margin-inline: auto;
   padding-block: 2rem;
-  
+
   /* Aspect ratio */
   aspect-ratio: 16 / 9;
-  
+
   /* Clamp function */
   font-size: clamp(1rem, 2vw, 1.5rem);
-  
+
   /* CSS filters */
   filter: blur(2px) brightness(1.2);
 }
