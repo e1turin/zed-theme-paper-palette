@@ -1,282 +1,431 @@
-// Kotlin sample for Alabaster theme
-// Demonstrates common Kotlin language features
+// Kotlin syntax highlighting sample — compact, not compilable.
+// Covers as many language constructs as possible in one file.
 
 package io.github.e1turin.samples
 
-import kotlin.math.PI
-import kotlin.math.pow
-import kotlin.system.measureTimeMillis
+import kotlin.math.*
+import kotlin.properties.Delegates
+import kotlinx.coroutines.*
 
-// Global constants
-const val MAX_SIZE: Int = 1000
-const val PI_CONST: Double = 3.14159
-const val DEBUG: Boolean = true
-const val DEFAULT_NAME: String = "Unnamed"
+// === TOP-LEVEL PROPERTIES ===
 
-// Top-level property
-val counter: Int = 0
-var mutableCounter = 0
+const val COMPILE_TIME_CONST: Int = 42
+val readOnly: String = "top-level val"
+var mutable: Double = 3.14
 
-// Type alias
-typealias ShapeFactory = (String, DoubleArray) -> Shape?
+// === TYPEALIAS ===
 
-// Data class
-data class Point(val x: Double, val y: Double) {
-    fun distanceTo(other: Point): Double {
-        val dx = x - other.x
-        val dy = y - other.y
-        return kotlin.math.sqrt(dx * dx + dy * dy)
-    }
+typealias Predicate<T> = (T) -> Boolean
+typealias IntPair = Pair<Int, Int>
+
+// === FUNCTIONS ===
+
+// Standard function with default parameter
+fun greet(name: String, greeting: String = "Hello"): String = "$greeting, $name!"
+
+// Named arguments call site (shown later in usage block)
+fun createPoint(x: Int = 0, y: Int = 0) = IntPair(x, y)
+
+// Single-expression function
+fun square(n: Int): Int = n * n
+
+// Extension function
+fun String.exclaim(): String = "$this!"
+
+// Infix function
+infix fun Int.plusTimes(times: Int): Int = (this + times) * times
+
+// Operator overloading
+data class Vector(val x: Int, val y: Int) {
+    operator fun plus(other: Vector) = Vector(x + other.x, y + other.y)
+    operator fun inc() = Vector(x + 1, y + 1)
+    operator fun get(index: Int): Int = when (index) { 0 -> x; 1 -> y; else -> throw IndexOutOfBoundsException() }
 }
 
-// Enum class with properties
-enum class Status {
-    ACTIVE,
-    INACTIVE,
-    PENDING,
-    ERROR
-}
-
-// Enum with constructor and methods
-enum class Color(val hex: String) {
-    RED("#FF0000"),
-    GREEN("#00FF00"),
-    BLUE("#0000FF");
-
-    fun rgb(): Triple<Int, Int, Int> {
-        val r = hex.substring(1..2).toInt(16)
-        val g = hex.substring(3..4).toInt(16)
-        val b = hex.substring(5..6).toInt(16)
-        return Triple(r, g, b)
-    }
-}
-
-// Sealed class / interface
-sealed class Shape {
-    abstract fun area(): Double
-    abstract fun perimeter(): Double
-}
-
-// Inheritance: class extending sealed class
-class Circle(val radius: Double, val name: String = "Circle") : Shape() {
-    init {
-        require(radius > 0) { "Radius must be positive" }
-    }
-
-    override fun area(): Double = PI * radius.pow(2)
-
-    override fun perimeter(): Double = 2 * PI * radius
-}
-
-class Rectangle(val width: Double, val height: Double, name: String = "Rectangle") : Shape() {
-    override fun area(): Double = width * height
-
-    override fun perimeter(): Double = 2 * (width + height)
-}
-
-// Object declaration (singleton)
-object ShapeRegistry {
-    private val shapes = mutableListOf<Shape>()
-
-    fun register(shape: Shape) {
-        shapes.add(shape)
-    }
-
-    fun all(): List<Shape> = shapes.toList()
-
-    fun clear() {
-        shapes.clear()
-    }
-}
-
-// Companion object and factory pattern
-class User private constructor(
-    val id: Long,
-    val name: String,
-    val email: String?
-) {
-    companion object Factory {
-        private var nextId = 1L
-
-        @JvmStatic
-        fun create(name: String, email: String? = null): User {
-            return User(nextId++, name, email)
-        }
-    }
-
-    val displayName: String
-        get() = email?.let { "$name <$it>" } ?: name
-
-    override fun toString(): String = "User(id=$id, name='$name')"
-}
-
-// Interface with default implementation
-interface Drawable {
-    fun draw(): String
-
-    fun description(): String = "A drawable object"
-}
-
-// Multiple interface implementation
-class Drawing(private val shapes: List<Shape>) : Drawable {
-    override fun draw(): String {
-        return shapes.joinToString("\n") { shape ->
-            when (shape) {
-                is Circle -> "Circle(radius=${shape.radius})"
-                is Rectangle -> "Rectangle(w=${shape.width}, h=${shape.height})"
-                else -> "Unknown shape"
-            }
-        }
-    }
-}
-
-// Extension functions
-fun Circle.scaled(factor: Double): Circle {
-    return Circle(radius * factor, "$name (scaled)")
-}
-
-fun String.isEmail(): Boolean {
-    return this.contains("@") && this.contains(".")
-}
-
-// Generic function
-fun <T> identity(value: T): T = value
-
-// Higher-order function with lambda
+// Higher-order function
 fun <T> List<T>.customFilter(predicate: (T) -> Boolean): List<T> {
     val result = mutableListOf<T>()
-    for (item in this) {
-        if (predicate(item)) {
-            result.add(item)
-        }
-    }
+    for (item in this) if (predicate(item)) result.add(item)
     return result
 }
 
 // Inline function
-inline fun <reified T> isInstance(value: Any): Boolean {
-    return value is T
+inline fun measure(block: () -> Unit): Long {
+    val start = System.nanoTime()
+    block()
+    return System.nanoTime() - start
 }
 
-// Suspend function (coroutines demonstration)
+// Inline reified function
+inline fun <reified T> isInstance(value: Any): Boolean = value is T
+
+// Suspend function
 suspend fun fetchData(url: String): String {
-    // Simulated async work
-    kotlinx.coroutines.delay(100)
-    return "Data from $url"
+    delay(100)
+    return "result from $url"
 }
 
-// Main function
-fun main() {
-    // Various string types
-    val singleQuoted = "Hello, World!"
-    val rawString = """Raw
-        |multiline
-        |string literal""".trimMargin()
+// === CLASSES ===
 
-    // String templates
-    val name = "Kotlin"
-    val greeting = "Hello, $name!"
-    val expression = "2 + 2 = ${2 + 2}"
+// Simple class with primary constructor
+class Person(val name: String, var age: Int)
 
-    // Numeric literals
-    val integer = 42
-    val float = 3.14
-    val hex = 0xFF
-    val binary = 0b1010
-    val long = 123L
-    val unsigned = 42u
+// Class with init block, secondary constructor, and property with backing field
+class Counter {
+    private var _count: Int = 0
 
-    // Boolean literals
-    val isTrue = true
-    val isFalse = false
+    val count: Int
+        get() = _count
 
-    // Nullable types
-    val nullableString: String? = "not null"
-    val nullString: String? = null
+    var label: String = "counter"
+        set(value) {
+            if (value.isNotBlank()) field = value
+        }
+
+    constructor() : this(0, "default")
+
+    constructor(initial: Int, label: String) {
+        _count = initial
+        this.label = label
+    }
+
+    init {
+        _count = 0.coerceAtLeast(0)
+    }
+
+    fun increment() { _count++ }
+}
+
+// Data class
+data class Point(val x: Double, val y: Double)
+
+// Sealed interface
+sealed interface Expr
+
+// Sealed class implementing sealed interface
+sealed class BinOp : Expr {
+    data class Plus(val left: Expr, val right: Expr) : BinOp()
+    data class Times(val left: Expr, val right: Expr) : BinOp()
+}
+
+object Num : Expr {
+    data class Const(val value: Int) : Expr
+}
+
+// Enum with properties and method
+enum class Suit(val displayName: String, val symbol: String) {
+    HEARTS("Hearts", "\u2665"),
+    DIAMONDS("Diamonds", "\u2666"),
+    CLUBS("Clubs", "\u2663"),
+    SPADES("Spades", "\u2660");
+
+    fun isRed(): Boolean = this == HEARTS || this == DIAMONDS
+}
+
+// Object declaration (singleton)
+object Logger {
+    private var level: Int = 0
+
+    fun info(msg: String) { println("[INFO] $msg") }
+    fun setLevel(l: Int) { level = l }
+}
+
+// Companion object with @JvmStatic
+class Database {
+    companion object Factory {
+        private var instance: Database? = null
+
+        @JvmStatic
+        fun getInstance(): Database = instance ?: Database().also { instance = it }
+    }
+}
+
+// Abstract class
+abstract class Animal {
+    abstract fun speak(): String
+    open fun move(): String = "moves"
+}
+
+// Inheritance
+class Dog(val name: String) : Animal() {
+    override fun speak(): String = "$name says Woof"
+    override fun move(): String = "runs"
+}
+
+// Interface with default method
+interface Identifiable {
+    val id: String
+    fun describe(): String = "id=$id"
+}
+
+// Multiple interface implementation
+class Robot(override val id: String, val model: String) : Identifiable {
+    override fun describe(): String = "Robot(model=$model, id=$id)"
+}
+
+// === DELEGATED PROPERTIES ===
+
+val lazyValue: String by lazy { "computed lazily" }
+
+var observed: Int by Delegates.observable(0) { prop, old, new ->
+    println("${prop.name} changed from $old to $new")
+}
+
+// === LATEINIT ===
+
+class AppConfig {
+    lateinit var configFile: String
+
+    fun load() {
+        configFile = "/etc/app.conf"
+    }
+}
+
+// === NULL SAFETY ===
+
+fun nullSafetyDemo() {
+    val a: String? = "hello"
+    val b: String? = null
+
+    val len1: Int? = a?.length         // safe call
+    val len2: Int = b?.length ?: -1    // elvis
+    val len3: Int = a!!.length         // not-null assertion
+
+    a?.let { println("not null: $it") }
+
+    val checked: String = b as? String ?: "fallback"  // safe cast
+}
+
+// === SMART CASTS ===
+
+fun smartCastDemo(x: Any) {
+    if (x is String) {
+        println(x.length)  // smart-cast to String
+    }
+
+    when (x) {
+        is Int -> println("int: ${x.toDouble()}")
+        is String -> println("string len: ${x.length}")
+        !is Number -> println("not a number")
+    }
+}
+
+// === CONTROL FLOW ===
+
+fun controlFlowDemo() {
+    // if / else (expression)
+    val max = if (1 > 2) 1 else 2
+
+    // when (exhaustive)
+    val suit = Suit.HEARTS
+    val color: String = when (suit) {
+        Suit.HEARTS, Suit.DIAMONDS -> "red"
+        Suit.CLUBS, Suit.SPADES -> "black"
+    }
+
+    // when without argument
+    val x = 5
+    val desc = when {
+        x < 0 -> "negative"
+        x == 0 -> "zero"
+        else -> "positive"
+    }
+
+    // for with range
+    for (i in 1..10) { /* … */ }
+
+    // for with until / downTo / step
+    for (i in 1 until 10 step 2) { /* … */ }
+    for (i in 10 downTo 1) { /* … */ }
+
+    // for with destructuring
+    val items = listOf("a", "b", "c")
+    for ((index, value) in items.withIndex()) { /* … */ }
+
+    // while / do while
+    var i = 0
+    while (i < 3) i++
+
+    do {
+        i--
+    } while (i > 0)
+}
+
+// === COLLECTIONS & LAMBDAS ===
+
+fun collectionsDemo() {
+    val list = listOf(1, 2, 3)
+    val mutList = mutableListOf(1, 2, 3)
+    val set = setOf("a", "b", "c")
+    val map = mapOf("x" to 1, "y" to 2)
+    val seq = sequenceOf(1, 2, 3)
+
+    // Lambda with explicit parameter
+    list.forEach { value -> println(value) }
+
+    // Trailing lambda
+    list.map { it * 2 }
+
+    // Lambda as variable
+    val isEven: (Int) -> Boolean = { it % 2 == 0 }
+}
+
+// === SCOPE FUNCTIONS ===
+
+fun scopeFunctionsDemo() {
+    val point = Point(1.0, 2.0)
+
+    val dist = point.let { kotlin.math.sqrt(it.x * it.x + it.y * it.y) }
+
+    val modified = point.apply {
+        // this == point
+        println("($x, $y)")
+    }
+
+    val area = with(point) { x * y }
+
+    val logged = point.also { println("using $it") }
+
+    val r = point.run { x + y }
+}
+
+// === DESTRUCTURING ===
+
+fun destructuringDemo() {
+    val (x, y) = Point(10.0, 20.0)
+    val (key, value) = "key=value".split("=").let { it[0] to it[1] }
+}
+
+// === STRING TEMPLATES & RAW STRINGS ===
+
+val stringTemplates = """
+    Hello, ${"Kotlin"}!
+    name = $readOnly
+    sum = ${2 + 2}
+""".trimIndent()
+
+// === LITERALS ===
+
+val literals = mapOf(
+    "int" to 42,
+    "long" to 123L,
+    "float" to 3.14f,
+    "double" to 2.718,
+    "hex" to 0xFF,
+    "binary" to 0b1010,
+    "unsigned" to 42u,
+    "bool-true" to true,
+    "bool-false" to false,
+    "char" to 'A',
+    "string" to "text",
+    "null" to null
+)
+
+// === ANNOTATIONS ===
+
+@Suppress("UNUSED_PARAMETER")
+fun annotated(param: String) {}
+
+annotation class Fancy(val description: String = "")
+
+@Fancy("example")
+fun fancyFunction() {}
+
+// === REQUIRE / CHECK / ASSERT ===
+
+fun contractChecks(value: Int, list: List<Int>) {
+    require(value >= 0) { "value must be non-negative, was $value" }
+    check(list.isNotEmpty()) { "list must not be empty" }
+    assert(value <= 100)
+}
+
+// === TODO / NOTHING / UNIT / ANY ===
+
+fun todoPlaceholder(): Nothing = TODO("implement later")
+
+fun returnsUnit(): Unit = Unit
+
+fun identity(value: Any?): Any? = value
+
+fun nullableNothing(): Nothing? = null
+
+// === GENERICS WITH VARIANCE AND WHERE ===
+
+class Box<out T>(val value: T)  // covariant out
+
+interface Consumer<in T> {      // contravariant in
+    fun consume(item: T)
+}
+
+fun <T> singleton(item: T): List<T> = listOf(item)
+
+fun <T : Comparable<T>> maxOf(a: T, b: T): T = if (a >= b) a else b
+
+fun <T> Iterable<T>.filtered(
+    predicate: Predicate<T>
+): List<T> where T : Any = filter(predicate)
+
+// === TYPE CHECKS & CASTS ===
+
+fun typeChecks(value: Any) {
+    val isString = value is String
+    val notString = value !is String
+
+    // Safe cast
+    val str: String? = value as? String
+
+    // Unsafe cast (would throw)
+    // val forced: String = value as String
+}
+
+// === USAGE BLOCK (no main needed) ===
+
+fun usageBlock() {
+    // Named args
+    createPoint(y = 5, x = 3)
+
+    // Infix call
+    val result = 3 plusTimes 4  // (3+4)*4 = 28
+
+    // Operator overloads
+    var v1 = Vector(1, 2)
+    val v2 = Vector(3, 4)
+    val sum = v1 + v2       // plus
+    v1++                    // inc
+    val first = v1[0]       // get
+
+    // Extension
+    "hello".exclaim()
+
+    // Delegated
+    println(lazyValue)
+    observed = 1
+
+    // Smart cast via is + when exhaustive
+    smartCastDemo("text")
+
+    // Destructuring
+    destructuringDemo()
+
+    // Scope
+    scopeFunctionsDemo()
 
     // Null safety
-    val length: Int? = nullableString?.length
-    val safeLength: Int = nullString?.length ?: -1
-
-    // Creating instances
-    val circle = Circle(5.0, "My Circle")
-    val rect = Rectangle(10.0, 20.0)
-    val point = Point(3.0, 4.0)
-
-    // Using objects
-    ShapeRegistry.register(circle)
-    ShapeRegistry.register(rect)
-
-    // For loop with range
-    for (i in 1..10) {
-        if (i % 2 == 0) continue
-        if (i > 7) break
-        println(i)
-    }
-
-    // For loop with collection
-    val items = listOf("a", "b", "c")
-    for ((index, value) in items.withIndex()) {
-        println("$index: $value")
-    }
-
-    // While loop
-    var i = 0
-    while (i < 3) {
-        println(i)
-        i++
-    }
-
-    // When expression (replacement for switch)
-    val status = Status.ACTIVE
-    val message = when (status) {
-        Status.ACTIVE -> "Active"
-        Status.INACTIVE -> "Inactive"
-        Status.PENDING -> "Pending..."
-        Status.ERROR -> "Error occurred"
-    }
+    nullSafetyDemo()
 
     // Collections
-    val list = listOf(1, 2, 3, 4, 5)
-    val mutableList = mutableListOf(1, 2, 3)
-    val set = setOf(1, 2, 3)
-    val map = mapOf("key1" to "value1", "key2" to "value2")
+    collectionsDemo()
 
-    // Destructuring declarations
-    val (x, y) = Point(10.0, 20.0)
-    println("Point: x=$x, y=$y")
+    // Type alias & higher-order
+    listOf(1, 2, 3).customFilter { it > 1 }
 
-    // Scope functions
-    val result = circle.let {
-        "Area: ${it.area()}, Perimeter: ${it.perimeter()}"
-    }
+    // String templates
+    println(stringTemplates)
 
-    val rectCopy = rect.apply {
-        // apply provides 'this' context
-        println("Using apply on $this")
-    }
+    // Enum exhaustive when
+    val suit = Suit.HEARTS
+    println(suit.isRed())
 
-    val area = with(rect) {
-        area() // same as rect.area()
-    }
-
-    // Lambda usage
-    val doubled = list.map { it * 2 }
-    val evens = list.filter { it % 2 == 0 }
-    val sum = list.reduce { acc, n -> acc + n }
-
-    // Generic function
-    val intIdentity = identity(42)
-    val stringIdentity = identity("hello")
-
-    // Extension function usage
-    val scaledCircle = circle.scaled(2.0)
-    val isValidEmail = "user@example.com".isEmail()
-
-    // Companion object usage
-    val user = User.create("Alice", "alice@example.com")
-
-    // Annotations
-    @Suppress("UNUSED_EXPRESSION")
-    val unused = 42
+    // Companion
+    val db = Database.getInstance()
 }

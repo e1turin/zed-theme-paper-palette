@@ -1,350 +1,210 @@
-// Typst sample theme demonstrates common Typst syntax features
+// === COMMENTS ===
+// Single-line comments appear above code and describe intent.
+/* Multi-line
+   block comments can span several lines. */
 
+// === IMPORTS & INCLUDES ===
 #import "@preview/cetz:0.3.1"
-#import "@preview/fletcher:0.5.4"
+#import "utils.typ": greet, format-block
+#include "chapter1.typ"
 
-// Set rules for global styling
+// === SET RULES ===
 #set page(paper: "a4", margin: (x: 2cm, y: 2.5cm), numbering: "1")
 #set text(font: "New Computer Modern", size: 11pt, fill: rgb("#333333"))
 #set par(justify: true, leading: 0.55em, spacing: 0.55em)
 #set heading(numbering: "1.1")
 
-// Show rule: text replacement
+// === SHOW RULES ===
 #show "Typst": set text(fill: navy, weight: "bold")
 #show regex("\bAlabaster\b"): smallcaps
-
-// ============================================
-//  Constants and Variables
-// ============================================
-
-#let max-size = 1000
-#let pi-const = 3.14159
-#let debug = true
-#let default-name = "Unnamed"
-
-// Mutable counter
-#let counter = 0
-#let mut-value = 42
-
-// ============================================
-//  Functions
-// ============================================
-
-#let identity(value) = value
-
-// Function with named arguments and defaults
-#let circle-area(radius) = {
-  if radius <= 0 {
-    return 0.0
-  }
-  let result = pi-const * radius * radius
-  result
-}
-
-// Function returning content
-#let greet(name) = [
-  Hello, #name!
+#show heading: set text(fill: rgb("#2D5F8A"))
+#show "TODO": it => [
+  #box(fill: yellow, inset: 2pt)[#it]
 ]
 
-// Higher-order function
-#let apply-twice(f, value) = f(f(value))
+// ============================================================
+// Body text with embedded formatting
+// ============================================================
 
-// Function with body block
-#let format-block(body, size: 11pt) = {
-  set text(size: size)
+= Introduction
+
+This document demonstrates how Typst's syntax highlighting applies to a real document with flowing text. The purpose is to show that *inline emphasis*, *strong emphasis*, `inline code`, and other constructs remain visually distinct when embedded inside paragraphs rather than listed in isolation.
+
+All Alabaster theme users should verify that the highlighting looks correct across different constructs. The following sections demonstrate each feature in context.
+
+== Text Formatting
+
+This paragraph contains a mix of formatting elements. Here is some *italicised text* to show how it reads inside a sentence, followed by *bold text* for emphasis, and then a `code snippet` for a configuration key. Sometimes you need ~~strikethrough~~ to mark deprecated content. The combination of #underline[underlined], #strike[strikethrough], and #smallcaps[Small Caps] should each be clearly distinguishable.
+
+"Double smart quotes" and 'single smart quotes' appear differently from straight quotes. Em-dashes --- and en-dashes -- also have distinct typographic treatment, and a non-breaking space~prevents~line~breaks.
+
+== Lists in Context
+
+The following list describes the key configuration options for the Alabaster theme:
+
+- The *primary colour* is derived from the `accent` parameter: this controls most UI elements.
+- The *background tint* is specified via `luma(240)` — a light grey that reduces eye strain.
+  - Nested lists show how indentation levels are highlighted differently.
+    - Deep nesting with `code` and *bold* inside the text.
+- Back at the top level, a final item demonstrates continuation after nesting.
+
+The numbered steps for setting up the theme are:
+
++ First, install the theme file into your `.config/zed/themes/` directory.
++ Next, select *Alabaster* from the theme picker in the editor settings.
++ Finally, verify that all `sample.*` files render correctly under the new theme.
+  + Sub-step: open each sample file.
+  + Sub-step: inspect the highlighting for each language feature.
+
+Term lists describe concepts inline:
+
+/ Theme: A collection of colour and style settings that define the appearance of the editor.
+/ Syntax highlighting: The visual distinction of different language constructs using colour and style.
+
+== Code and Raw Blocks
+
+When writing documentation, code blocks appear mid-paragraph after an introductory sentence. For example, here is a Rust function that computes the nth Fibonacci number:
+
+```rust
+fn fib(n: u64) -> u64 {
+    match n {
+        0 => 0,
+        1 => 1,
+        _ => fib(n - 1) + fib(n - 2),
+    }
+}
+```
+
+The paragraph after the code block should clearly show that the code block's background and border are distinct from the surrounding prose. Here is a Typst code block demonstrating a simple function:
+
+```typst
+#let make-title(body) = {
+  set text(size: 24pt, weight: "bold")
   body
 }
-
-// ============================================
-//  Math and Equations
-// ============================================
-
-// Inline math
-Inline: $E = m c^2$, $x = (-b plus.minus sqrt(b^2 - 4a c)) / (2a)$
-
-// Block math
-$ "area" = pi r^2 $
-
-// Multi-line equation with alignment
-$ sum_(k=0)^n k
-    &= 1 + ... + n \
-    &= (n(n+1)) / 2 $
-
-// Matrix
-$ mat(1, 2; 3, 4) $
-
-// Vector
-$ vec(1, 2, 3) $
-
-// Cases
-$ cases(
-   x + y = 6,
-   x - y = 4,
-) $
-
-// Integrals, sums, products
-$ integral_0^1 f(x) dif x = pi / 4 $
-$ product_(i=1)^m i = m! $
-$ lim_(x -> 0) sin(x) / x = 1 $
-
-// Greek letters and symbols
-$ alpha, beta, gamma, Gamma, pi, Sigma, omega, Omega $
-
-// ============================================
-//  Headings
-// ============================================
-
-= Level 1 Heading
-== Level 2 Heading
-=== Level 3 Heading
-==== Level 4 Heading
-===== Level 5 Heading
-
-// ============================================
-//  Text Formatting
-// ============================================
-
-*Bold text* with double asterisks.
-_Italic text_ with underscores.
-`Inline code` with backticks.
-#underline[Underlined text.]
-#strike[Strikethrough text.]
-#smallcaps[Small capitals.]
-
-// Combined formatting
-*Bold and _italic_ within bold.*
-_A text with `code` inside it._
-
-// Smart quotes
-"Double smart quotes" and 'single smart quotes'.
-
-// Dashes
-Em-dash --- and en-dash -- and non-breaking space~between.
-
-// ============================================
-//  Lists
-// ============================================
-
-// Bullet list
-- First item
-- Second item
-  - Nested item A
-  - Nested item B
-    - Deeply nested item
-- Third item
-
-// Numbered list
-+ Step one
-+ Step two
-  + Sub-step A
-  + Sub-step B
-+ Step three
-
-// Term list
-/ Term: Description of the term.
-/ Another term: Its description spanning
-  multiple lines of explanation.
-
-// ============================================
-//  Code / Raw Blocks
-// ============================================
-
-// Fenced code block with language
-```rust
-fn main() {
-    let msg = "Hello, Typst!";
-    println!("{}", msg);
-}
 ```
 
-// Typst syntax in code block
-```typst
-#let hello(name) = [
-  Hello, #name!
-]
-```
+And a raw block with theme options:
 
-// Raw block with options
 ```typc
-[theme: "dracula", lang: "python", line-numbers: true]
-def fib(n: int) -> int:
-    if n <= 1:
-        return n
-    return fib(n - 1) + fib(n - 2)
+[theme: "dracula", lang: "python"]
+def greet(name):
+    return f"Hello, {name}!"
 ```
 
-// ============================================
-//  Tables
-// ============================================
+= Tables
 
-// Basic table
+The table below summarises the supported colour formats. Table headers are styled differently from body cells, and alignment markers control column layout.
+
 #table(
-  columns: (1fr, auto, auto),
+  columns: (1fr, auto, auto, auto),
   inset: 10pt,
   align: horizon,
-  [Name], [Age], [Score],
-  [Alice], [28], [95],
-  [Bob], [32], [87],
-  [Charlie], [24], [92],
+  [Format], [Example], [Range], [Alpha],
+  [Hex], [#FF0000], [000000—FFFFFF], [No],
+  [RGB], [rgb(255, 0, 0)], [0—255], [Yes],
+  [Luma], [luma(128)], [0—255], [No],
+  table.hline(),
+  table.footer([Total], [3 formats], [], []),
 )
 
-// Table with header
+A second table with a header and footer shows how spanning and repetition work in practice:
+
 #table(
   columns: 3,
   table.header([*Item*], [*Qty*], [*Price*]),
-  [Widget], [5], [\$10.00],
-  [Gadget], [3], [\$15.00],
+  [Widget A], [5], [\$10.00],
+  [Widget B], [3], [\$15.00],
+  table.hline(),
   table.footer([Total], [], [\$25.00]),
 )
 
-// ============================================
-//  Figures and References
-// ============================================
+= Figures and Cross-References
 
-// Label and reference
-= Introduction <intro>
-See the @intro section for details.
-See page #ref(<intro>, form: "page").
+Every figure should have a caption and a label so it can be referenced from the text. For example, the rectangle shown in @fig:sample demonstrates the `blue.lighten(60%)` colour transform. You can also reference sections like @intro to link back to the beginning of the document.
 
-// Figure with caption
 #figure(
   rect(width: 3cm, height: 2cm, fill: blue.lighten(60%)),
-  caption: [Sample rectangle],
+  caption: [A sample rectangle with a light blue fill],
 ) <fig:sample>
 
-// Cross-reference to figure
-As shown in @fig:sample.
-
-// ============================================
-//  Blockquotes and Admonitions
-// ============================================
+Blockquotes are used for cited material:
 
 #quote(block: true)[
-  To be or not to be, that is the question.
+  To be or not to be, that is the question. Whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles.
 ]
 
-#quote(
-  block: true,
-  attribution: [William Shakespeare],
-)[
-  All the world's a stage.
+#quote(block: true, attribution: [William Shakespeare])[
+  All the world's a stage, and all the men and women merely players.
 ]
 
-// ============================================
-//  Links
-// ============================================
+= Mathematical Typesetting
 
-https://typst.app/
-#link("https://typst.app/")[Typst]
-#link("mailto:hello@typst.app")
+Inline math like $E = m c^2$ appears within the text flow. The transition from prose to math mode should be visibly distinct. Block math is displayed on its own lines:
 
-// ============================================
-//  Numeric and Boolean Literals
-// ============================================
+$ "area" = pi r^2 $
 
-#let integer = 42
-#let float = 3.14
-#let hex = 0xff
-#let boolean-true = true
-#let boolean-false = false
-#let nothing = none
-#let default = auto
+Multi-line equations with alignment show structure:
 
-// Lengths
-#let h-length = 1cm
-#let v-length = 2pt
-#let em-space = 1em
+$ sum_(k=0)^n k
+    &= 1 + dots + n \
+    &= (n(n+1)) / 2 $
 
-// ============================================
-//  Conditionals and Loops
-// ============================================
+Matrices and vectors appear in context:
 
-#if debug [
-  Debug mode is enabled.
-] else [
-  Debug mode is disabled.
-]
+$ mat(1, 2; 3, 4) quad mat(a, b; c, d) quad vec(1, 2, 3) $
 
-#let status = if integer > 10 { "big" } else { "small" }
+Piecewise definitions use cases:
 
-// For loop
-#for item in ("a", "b", "c") [
-  - #item
-]
+$ f(x) = cases(
+   x^2, if x > 0,
+   0, if x = 0,
+   -x^2, if x < 0,
+) $
 
-// For with index
-#for (i, val) in ("x", "y", "z").enumerate() [
-  #i. #val
-]
+Integrals, sums, and limits all appear in mathematical prose:
 
-// While loop
-#let i = 0
-#while i < 3 [
-  #i \  // line break after
-  #(i = i + 1)
-]
+$ integral_0^1 f(x) dif x = pi / 4 $ and $ lim_(x -> 0) sin(x) / x = 1 $
 
-// ============================================
-//  Arrays, Dictionaries, and Content
-// ============================================
+Greek letters are common in mathematical notation: $ alpha, beta, gamma, Delta, Sigma, Omega $.
 
-// Array
-#let items = (1, 2, 3, 4, 5)
-#let mixed = (42, "text", true, none)
+Accents modify variables: $ hat(y) = beta_0 + beta_1 x $ and $ dot(x) = dx / dt $.
 
-// Dictionary
-#let config = (
-  title: "Typst Sample",
-  version: "1.0.0",
-  debug: true,
-  font: "New Computer Modern",
-)
+= Literals and Values
 
-// Content block
-#let info-box(body) = block(
-  fill: rgb("#e8f4f8"),
-  inset: 1em,
-  radius: 4pt,
-  width: 100%,
-)[
-  *Note:* #body
-]
+The theme must correctly highlight literals embedded in text. Numbers like 42, 3.14, 0xff, and booleans like true and false should be visually distinct. Special values like none and auto also have specific highlighting.
 
-#info-box[This is a sample callout box.]
+Lengths: 1cm, 2pt, 1em, 1in, 1mm.
+Angles: 90deg, 1rad.
+Colours: `red`, `blue`, `rgb("#336699")`, `luma(240)` — each with their own syntax highlighting.
 
-// ============================================
-//  Colors
-// ============================================
+= Context and Metadata
 
-#let primary = rgb("#336699")
-#let secondary = blue
-#let bg = luma(240)
-#let light = primary.lighten(30%)
-#let dark = primary.darken(20%)
-#let semi = primary.transparentize(50%)
+Dynamic content is provided by context blocks. For example, the current page number is #context[#counter(page).display()] and the active language is #context[#text.lang].
 
-// ============================================
-//  Imports and Includes
-// ============================================
+The document metadata is embedded via `#metadata()`:
 
-// #import "utils.typ": greet
-// #include "chapter1.typ"
+#metadata((title: "Typst Sample", version: "1.0.0")) <doc-meta>
 
-// ============================================
-//  Context Expressions and Metadata
-// ============================================
+A table of contents can be generated automatically:
 
-#context [
-  Current language: #text.lang
-]
+#outline()
 
-#metadata((title: "Sample", version: "1.0.0")) <doc-meta>
+= Programmatic Constructs
 
-// ============================================
-//  Patterns: Closures and Folds
-// ============================================
+Closures and higher-order functions appear in code blocks alongside regular prose:
 
 #let double = x => x * 2
 #let add = (a, b) => a + b
 
-#let sum-items = items.fold(0, (acc, x) => acc + x)
+#let sum = items.fold(0, (acc, x) => acc + x)
+#let doubled = items.map(x => x * 2)
+#let evens = items.filter(x => calc.mod(x, 2) == 0)
+
+Type introspection: #type(42), #repr((1, 2, 3)), #str(42), #int("42"), #float("3.14").
+
+Comparisons: 1 == 1, 1 != 2, 1 < 2, 2 > 1. Booleans: true and false, true or false, not true.
+
+= Conclusion
+
+This sample demonstrates how Typst syntax highlighting behaves in the context of real document content. Each formatting element — whether *bold*, _italic_, `code`, $math$, or a #smallcaps[function call] — should be clearly distinguishable from the surrounding text when rendered under the theme.

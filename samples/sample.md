@@ -1,89 +1,103 @@
 # Markdown Sample for Alabaster Theme
-## Demonstrates common Markdown syntax highlighting
 
-### Headings
+## Syntax Highlighting Demonstration
 
-# Heading Level 1
-## Heading Level 2
-### Heading Level 3
-#### Heading Level 4
-##### Heading Level 5
-###### Heading Level 6
+This document demonstrates how Markdown syntax elements appear **inside flowing text** — because syntax highlighting matters most when markup is embedded in real prose, not just listed in isolation.
 
-### Paragraphs and Text Formatting
+---
 
-This is a regular paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+### Headings in Context
 
-This is **bold text** using double asterisks.
-This is __bold text__ using double underscores.
-This is *italic text* using single asterisks.
-This is _italic text_ using single underscores.
-This is ***bold and italic*** using triple asterisks.
-This is ~~strikethrough~~ text.
-This is `inline code` within a paragraph.
-This is a [hyperlink](https://example.com) with a title.
+# Level 1 Heading
 
-### Blockquotes
+The quick brown fox jumps over the lazy dog. This paragraph follows an H1 heading to show how the thematic break between heading levels and body text renders.
 
-> This is a blockquote.
-> It can span multiple lines.
+## Level 2 Heading
+
+In publishing and graphic design, **Lorem ipsum** is a placeholder text commonly used to demonstrate the visual form of a document. Here we have an H2 followed by a paragraph that contains `inline code`, a [hyperlink to somewhere](https://example.com), and some *italicised text* for good measure.
+
+### Level 3 Heading
+
+This paragraph sits under an H3. It contains **bold text**, ~~strikethrough~~, and even a bit of `code`. The purpose is to see how these inline elements interact with surrounding prose when highlighted by the theme.
+
+#### Level 4 Heading
+
+An H4 with more body text. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. H~2~O and X^2^ + Y^2^ = Z^2^ demonstrate subscript and superscript.
+
+##### Level 5 Heading
+
+H5 level. This is _emphasised text_ within a longer paragraph that also includes a **bold phrase** and a `monospace fragment`. The highlighting should clearly distinguish these from the plain text around them.
+
+###### Level 6 Heading
+
+H6 is the deepest heading level. Even here, inline formatting like ~~strikethrough~~ and `code` should be visually distinct from the paragraph text that follows the heading.
+
+---
+
+### Inline Formatting in Paragraphs
+
+The following paragraph demonstrates how multiple inline formatting elements interact with surrounding prose:
+
+This is a **bold term** embedded in a sentence, alongside an *italicised phrase*, some ~~strikethrough text~~, and `inline code fragments`. Sometimes you see ***bold and italic*** combined, or a [reference link][ref] followed by a footnote marker[^1]. The theme must clearly distinguish each of these from the plain text that surrounds them.
+
+Another paragraph with a different mix: Here `code` appears mid-sentence, followed by *italic*, then **bold**, then ~~strikethrough~~, then back to plain text. The transition between each formatting mode should be visible in the syntax highlighting.
+
+> A blockquote with **bold**, *italic*, and `code` inline elements. Blockquotes often contain multiple paragraphs, like this one. The quote styling should apply to the entire block while inline formatting within it remains distinct.
 >
-> > And it supports nested blockquotes.
->
-> This is the outer blockquote again.
+> > A nested blockquote with its own inline formatting: Here is some **important text** and a `key` reference.
 
-### Lists
+---
+
+### Lists with Real Content
 
 #### Unordered List
 
-- Item one
-- Item two
-- Item three
-  - Nested item A
-  - Nested item B
-    - Deeply nested item
-- Item four
+- The first item in an unordered list, containing **bold text** and a `config.setting` reference.
+- Another list item that includes an [inline link](https://example.com/page) and some *italicised content* for context.
+  - A nested item under the second bullet, demonstrating how indentation highlights at different levels.
+    - Deeply nested item with `code`, **bold**, and a [link](https://example.com).
+- Back to the top level with more prose explaining the context of this list.
 
 #### Ordered List
 
-1. First item
-2. Second item
-3. Third item
-   1. Sub-item A
-   2. Sub-item B
-4. Fourth item
+1. First step in a procedure: configure the `settings.json` file with the appropriate **theme name**.
+2. Second step: run the build command and check the *output logs* for any warnings.
+3. Third step: verify that all `sample.*` files render correctly under the new theme.
+   1. Sub-step A: open each file in the editor.
+   2. Sub-step B: visually inspect the syntax highlighting for each language construct.
+4. Fourth step: commit the changes and open a pull request for review.
 
 #### Task List
 
-- [x] Completed task
-- [ ] Incomplete task
-- [ ] Another pending task
+- [x] **Completed task** — the `deploy.yml` workflow has been updated.
+- [ ] **Pending task** — write documentation for the new API endpoints.
+- [ ] Another pending task that includes a `code reference` and a [task link](https://example.com).
 
-### Code Blocks
+---
 
-#### Fenced Code Block (no language)
+### Code Blocks with Prose Context
 
-```
-This is a plain fenced code block.
-No syntax highlighting applied.
-```
-
-#### Fenced Code Block (with language)
+The paragraph before a code block often introduces what the code does. For example, the following JavaScript function demonstrates a simple greeting:
 
 ```javascript
 function greet(name) {
   console.log(`Hello, ${name}!`);
 }
-
-const result = greet("World");
 ```
+
+After the code block, the prose continues to explain the output. This is important for seeing how the code block's border and background interact with the surrounding text.
+
+A Python example with type annotations:
 
 ```python
 def fibonacci(n: int) -> int:
+    """Return the nth Fibonacci number."""
     if n <= 1:
         return n
     return fibonacci(n - 1) + fibonacci(n - 2)
 ```
+
+And a Rust snippet showing ownership:
 
 ```rust
 fn main() {
@@ -92,113 +106,92 @@ fn main() {
 }
 ```
 
-#### Indented Code Block
-
-    This is an indented code block.
-    It uses four spaces of indentation.
-    No language identifier needed.
-
-### Horizontal Rules
-
 ---
-
-***
-
-___
 
 ### Tables
 
-| Syntax       | Description |     Score |
-| :----------- | :---------: | --------: |
-| Header       |    Title    | $1,000.00 |
-| Paragraph    |    Text     |    $25.00 |
-| Code         |   Inline    |     $5.00 |
+The following table summarises configuration options. Table headers should be visually distinct from body cells, and alignment markers (`:---`, `:---:`, `---:`) must be highlighted correctly.
+
+| Setting       | Type    | Default  | Description                          |
+| :------------ | :-----: | -------: | :----------------------------------- |
+| `theme`       | String  | `"dark"` | The colour theme for the editor      |
+| `font.size`   | Number  |    `14`  | Base font size in pixels             |
+| `line.height` | Number  |   `1.5`  | Line height as a multiplier          |
+| `tab.size`    | Number  |     `4`  | Number of spaces per tab             |
+
+A second table with different column counts and alignment for comparison:
 
 | Left-aligned | Center-aligned | Right-aligned |
 | :----------- | :------------: | ------------: |
-| cell         |     cell       |         cell  |
-| cell         |     cell       |         cell  |
+| apple        |    banana      |        cherry |
+| date         |    elderberry  |          fig  |
 
-### Links
+---
 
-[Inline link](https://example.com/page)
-[Link with title](https://example.com "Example Title")
-<https://example.com/automatic-link>
-<automatic@email.address>
+### Links, Images, and References
 
-### Images
+Links can appear inline as part of a sentence: visit the [Typst website](https://typst.app/) for more information, or check the [documentation](https://typst.app/docs) for reference. Automatic links like <https://example.com> and email addresses like <user@example.com> should also be highlighted.
 
-![Alt text for image](https://example.com/image.png)
-![Image with title](https://example.com/photo.jpg "Photo Title")
+Reference-style links keep the prose clean: the [Alabaster theme][alabaster] provides a **light colour scheme** for syntax highlighting. Multiple references to the [same link][alabaster] demonstrate how the label system works.
 
-### Reference-style Links
+[alabaster]: https://example.com/alabaster "Alabaster Theme"
+[ref]: https://example.com/reference "Reference"
 
-This is a [reference link][ref-label].
-This is another [reference link][ref-label].
+Images with alt text: ![Example diagram](https://example.com/diagram.png) The image syntax should not break the surrounding paragraph flow.
 
-[ref-label]: https://example.com/reference "Reference Title"
+Footnotes provide additional context without cluttering the main text[^2]. This is especially useful for technical writing where citations are needed.
 
-### Footnotes
+[^1]: This footnote contains some `code` and **bold formatting**.
+[^2]: A second footnote with *italic text* and a [link](https://example.com).
 
-Here is a sentence with a footnote[^1].
+---
 
-[^1]: This is the footnote content.
+### LaTeX Math
 
-### Definition Lists
-
-Term One
-: Definition for term one.
-
-Term Two
-: Definition for term two.
-: Another definition for the same term.
-
-### Abbreviations
-
-The HTML specification is maintained by the W3C.
-
-*[W3C]: World Wide Web Consortium
-
-### Inline HTML
-
-<p>This is an inline HTML paragraph with <strong>bold text</strong> and <em>italic text</em>.</p>
-
-<details>
-<summary>Click to expand</summary>
-
-Hidden content that can be expanded.
-
-- List item inside details
-- Another list item
-
-</details>
-
-### Mathematical Expressions (LaTeX)
-
-Inline math: $E = mc^2$
-
-Block math:
+Inline math like $E = mc^2$ appears within the text flow, while block-level equations are displayed on their own:
 
 $$
 \frac{d}{dx} \left( \int_{a}^{x} f(t) \, dt \right) = f(x)
 $$
 
-### Emoji
+The transition from prose to math and back should be clearly visible in the syntax highlighting.
 
-:smile: :rocket: :+1: :fire: :warning:
+---
 
-### Escaped Characters
+### Definition Lists and Abbreviations
 
-\*literal asterisks\*
-\`literal backticks\`
-\[literal brackets\]
+**Term One**
+: The definition for term one, which may include `code` and **bold** within the definition text. This demonstrates how definition terms and their descriptions are visually separated.
 
-### Comments
+**HTTP**
+: The Hypertext Transfer Protocol is the foundation of data communication on the World Wide Web.
 
-<!-- This is an HTML comment that should be highlighted -->
+The W3C defines web standards. The abbreviation marker should highlight correctly.
 
-[comment]: # (This is a reference-style comment)
+*[W3C]: World Wide Web Consortium
+*[HTTP]: Hypertext Transfer Protocol
 
-### Superscript and Subscript
+---
 
-H~2~O is water. X^2^ + Y^2^ = Z^2^
+### Emoji and Escaped Characters
+
+Emoji shortcodes like :smile: :rocket: :+1: :fire: appear inline and should be highlighted distinctly from regular text.
+
+Escaped characters show literal rendering: \*this is not bold\*, \`not code\`, and \[not a link\]. These should appear with the escape character highlighted.
+
+---
+
+### Comments and HTML
+
+<!-- This is an HTML comment embedded in Markdown. The comment syntax should be clearly highlighted. -->
+
+[comment]: # (This is a reference-style comment, also highlighted.)
+
+<div>
+  <p>Inline HTML like this <strong>paragraph</strong> with a <code>span</code> inside should be highlighted as HTML even within a Markdown document.</p>
+</div>
+
+<details>
+  <summary>Click to expand</summary>
+  Hidden content with **bold** and `code` formatting.
+</details>
