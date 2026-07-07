@@ -4,7 +4,8 @@
   "author": "Turin Ivan (theme originally by Vitali Tsimoshka)",
   "themes": [
     {
-      "name": "Paper",
+      "name": "Pens & Highlighters", // more strict style with only classic pen-conlors and highlighted text
+      // "name": "Studyblr", // more color-pen style
       "appearance": "light",
       "style": {
         "accents": [
