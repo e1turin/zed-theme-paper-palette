@@ -496,8 +496,8 @@
           },
           "label": {
             "color": "#000000",
-            // "background_color": "#ffdec4",
-            "background_color": "#fae5fe",
+            "background_color": "#ffdec4",
+            // "background_color": "#fae5fe",
             "font_style": null,
             "font_weight": null
           },
