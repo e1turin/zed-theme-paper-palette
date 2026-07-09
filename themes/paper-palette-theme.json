@@ -57,7 +57,7 @@
         "tab.active_background": "#f7f7f7ff",
         // "search.match_background": "#ffbc5dff",
         // "search.match_background": "#fae5fe",
-        "search.match_background": "#feb7fe",
+        "search.match_background": "#fcd7fe",
         "panel.background": "#e6e6e6ff",
         "panel.focused_border": null,
         "pane.focused_border": null,
@@ -92,7 +92,8 @@
         "editor.cursor_foreground": "#ffffff",
         "terminal.background": "#f7f7f7ff",
         "terminal.foreground": "#000000",
-        "terminal.bright_foreground": "#000000",
+        // "terminal.bright_foreground": "#000000",
+        "terminal.bright_foreground": "#505050",
         "terminal.dim_foreground": "#666666",
         "terminal.ansi.black": "#000000",
         "terminal.ansi.bright_black": "#777777",
@@ -405,12 +406,13 @@
           },
           "variable.special": { // NOTE: it's `self` in Python
             "color": "#000000",
-            // "color": "#7a3e9d",
+            // "color": "#777777",
+            // "color": "#2e1aa0",
             "background_color": null,
             "font_style": null,
             // "font_style": "italic",
             // "font_weight": null
-            "font_weight": 300
+            "font_weight": 200
           },
           "variable.parameter": {
             "color": "#000000",
