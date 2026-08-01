@@ -20,6 +20,9 @@ Bold black font represents important thing in close reading while thin font or
 gray color are responding for additional information. Blue color is representing
 significant but side information rather than main ideas.
 
+Preview:
+![preview/pens-n-highlighters.png](./preview/pens-n-highlighters.png)
+
 ## Heritage
 
 Theme is based on [Alabaster][alabaster] theme for Zed which is based on the [same name theme for sublime][alabaster-tonsky]
